@@ -1,0 +1,71 @@
+Tener preparado y descargado el archivo docker-compose.yml
+A ese archivo docker hay q cambiar el mysqluser por un nombre de usuario y mysqlpassword por una contraseña que tu quieras.
+Nos metemos en la carpeta donde se encuenta el docker y ejecutamos el comando: docker-compose up
+Deberiamos tener 3 contenedores ejecutandose
+Si escribimos localhost/phpinfo.php veremos q no tenemos nada.
+Procedemos a meternos en el contenedor con el comando:
+docker exec -it "nombrecontenedor" /bin/bash
+Una vez dentro del contenedor
+instalamos vim: apt install vim
+configuramos permisos: chown www-data -R *
+escribimos cd /var/www/html/
+aqui creamos una carpeta public : mkdir public
+cd public
+vim phpinfo.php
+una vez dentro del archivo phpinfo escribimos:
+<?php
+phpinfo();
+guardamos y salimos
+Ahora si podemos comprobar en la url el phpinfo
+
+Procedemos a crear el proyecto laravel 
+nos vamos al root: cd /root (esto volviendo a la ruta inicial)
+Escribimos el comando para crear el proyecto laravel:
+composer create-project laravel/laravel nombreProyecto "8.*" --prefer-dist    (8 es la version mas estable)
+Copiamos el proyecto en la carpeta de la publicacion web
+cp -r nuevo/* /var/www/html/ (nuevo es el nombre del proyecto)
+cp -r nuevo/.* /var/www/html/  (copia los ocultos)
+Volvemos a cd var/www/html
+y permisos para linux cada que ejecutemos un artisan
+chown -R www-data:www-data * /var/www/html
+si trabjamos en un linux como anfitrion agregamos a nuestro usaurio
+chmod g+w * -R  (chmod -R g+w /var/www/html)
+
+Configurando laravel 
+Modificamos el archivo .env lo puedes hacer desde el IDE
+el DB_USERNAME y DB_PASSWORD, poner los mismos que en el docker.
+
+SOporte de usuarios:
+escribimos: php artisan make:auth (esto solo en laravel 5)
+en laravel 8:
+escribimos:  composer require laravel/ui
+luego escribiremos:  php artisan ui vue --auth (vue puede cambiarse a react, o bootstrap).
+Por utlimo instalamos dependencias de vue: 
+- apt update
+- apt install nodejs
+- apt install npm
+- npm install && npm run dev
+Y con eso ya tendremos el login register hecho.
+escribiemos: php artisan migrate
+
+Creamos modelos de la BD:
+escribimos: php artisan make:model -rm Modelo
+asi con todos los modelos de la BD.
+Ahora configuramos las entidades y relaciones de los modelos.
+Para ello retocamos los modelos de la carpeta models, y la migraciones en la carpeta migrations
+Una vez terminado ese paso, migramos a la base de datos
+escribimos: php artisan migrate:fresh
+Verificamos si en la base de datos se han creado nuestra relaciones
+Si todo ha salido bien ahora pasamos a añadir datos a nuestra base de datos con los seeders
+Procedemos a crearlos, para ello:
+escribimos: php artisan make:seeder nombreSeeder
+Es importante agregar este seeder en el archivo DatabaseSeeder.php
+y cuando terminemos de crear los seeders, escribimos: php artisan migrate:fresh --seede
+
+Comprobamos el ORM (opcional)
+
+Autenticacion
+Hay que empezar a modificar la Autenticacion
+Modificamos el:
+- register.blade.php  (fillable añadimos campos)
+- User.php (el validator , y el create) 
