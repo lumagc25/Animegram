@@ -78,3 +78,5 @@ y por ultimo en el app.blade.php, y agregamos la ruta en href
 
 TOken;
 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
+
+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
