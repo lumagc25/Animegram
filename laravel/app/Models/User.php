@@ -17,10 +17,15 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    protected $table = "users";
+
     protected $fillable = [
         'name',
+        'surname',
+        'nick',
         'email',
         'password',
+        'photo',
     ];
 
     /**
@@ -41,4 +46,20 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    //Relacion 1:M se usa hasmany()
+    //Enlazando con imagen (un usuario puede tener muchas imagenes) 
+    public function images() {
+        return $this->hasMany('App\Models\Image')->orderBy('id','desc');
+    }
+    
+    //Enlazando con comentarios (un usuario puede tener muchos comentarios)
+    public function comments() {
+        return $this->hasMany('App\Models\Comment')->orderBy('id','desc');
+    }
+    
+    //Enlazando con likes (un usuario puede tener muchos likes)
+    public function likes() {
+        return $this->hasMany('App\Models\Like')->orderBy('id','desc');
+    }
 }

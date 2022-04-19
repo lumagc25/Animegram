@@ -46,7 +46,7 @@ Por utlimo instalamos dependencias de vue:
 - apt install npm
 - npm install && npm run dev
 Y con eso ya tendremos el login register hecho.
-escribiemos: php artisan migrate
+escribiemos: php artisan migrate:fresh
 
 Creamos modelos de la BD:
 escribimos: php artisan make:model -rm Modelo
