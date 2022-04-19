@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class UsertwoController extends Controller
 {
@@ -12,6 +15,11 @@ class UsertwoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     //Muestra todos los usuarios
     public function index()
     {
@@ -78,6 +86,8 @@ class UsertwoController extends Controller
     //Despues de haber rellenado el formulario de edit, este actualiza en la base de datos
     public function update(Request $request, $id)
     {
+        $user = User::findOrFail($id);
+
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'surname' => 'required|string|max:255',
@@ -85,6 +95,17 @@ class UsertwoController extends Controller
             'nick' => 'required|string|max:255|unique:users,nick,'. $id,
             'email' => 'required|string|max:255|unique:users,email,'. $id,
         ]);
+
+        //Subir el avatar
+        $avatar = $request->file('photo');
+        if($avatar){
+            $image = time() . $avatar->getClientOriginalName();
+            //Guardamos dentro la carpeta de users
+            Storage::disk('users')->put($image, File::get($avatar));
+            //seteamos el nombre de la imagen en el objeto
+            $user->photo = $image;
+        }
+
         User::whereId($id)->update($validatedData);
 
         return redirect()->route('users.edit')->with(['message' => 'Tus datos han sido actualizados']);
@@ -100,5 +121,11 @@ class UsertwoController extends Controller
     public function destroy($id)
     {
         //
+    }
+    //Muestra una previsualizacion de la image
+    public function getImage($filename){
+        $file = Storage::disk('users')->get($filename);
+
+        return new Response($file, 200);
     }
 }

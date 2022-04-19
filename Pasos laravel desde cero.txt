@@ -76,7 +76,12 @@ En el creamos un metodo config que devuelve una vista que procedemos a crear en 
 creamos la ruta configuracion en routes/web.php
 y por ultimo en el app.blade.php, y agregamos la ruta en href
 
+Para crear el avatar 
+retocamos el /config/filesystems.php y añadimos en disk.
+
+
+
 TOken;
 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
 
-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
+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

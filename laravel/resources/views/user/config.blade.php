@@ -13,7 +13,7 @@
                 <div class="card-header">Configuración de mi cuenta</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('users.update', Auth::user()->id) }}">
+                    <form method="POST" action="{{ route('users.update', Auth::user()->id) }}" enctype="multipart/form-data">
                         @csrf
                         @method('PATCH')
                         <div class="row mb-3">
@@ -70,6 +70,26 @@
                                     </span>
                                 @enderror
                             </div>
+                        </div>
+
+                        <div class="row mb-3">
+
+                            <label for="photo" class="col-md-4 col-form-label text-md-end">{{ __('Avatar') }}</label>
+
+                            <div class="col-md-6">
+                                @include('includes.avatar')
+                                <input id="photo" type="file" class="form-control @error('photo') is-invalid @enderror" name="photo">
+
+                                @error('photo')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div>
+
                         </div>
 
                         <div class="row mb-0">
