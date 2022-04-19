@@ -36,3 +36,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+//Route::get('/configuracion', [App\Http\Controllers\UserController::class, 'config'])->name('config');
+//Route::post('/user/update', [App\Http\Controllers\UserController::class, 'update'])->name('user.update');
+
+Route::resource('users', 'UsertwoController');

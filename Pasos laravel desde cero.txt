@@ -68,7 +68,13 @@ Autenticacion
 Hay que empezar a modificar la Autenticacion
 Modificamos el:
 - register.blade.php  (añadimos campos de html)
-- User.php (el validator , y el create) 
+- registercontroller.php (el validator , y el create)
+
+Pagina de configuracion de usuario
+Creamos el controlador de usuario: escribimos: php artisan make:controller UserController
+En el creamos un metodo config que devuelve una vista que procedemos a crear en views/user/config.blade.php
+creamos la ruta configuracion en routes/web.php
+y por ultimo en el app.blade.php, y agregamos la ruta en href
 
 TOken;
 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
