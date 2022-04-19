@@ -67,5 +67,8 @@ Comprobamos el ORM (opcional)
 Autenticacion
 Hay que empezar a modificar la Autenticacion
 Modificamos el:
-- register.blade.php  (fillable añadimos campos)
+- register.blade.php  (añadimos campos de html)
 - User.php (el validator , y el create) 
+
+TOken;
+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
