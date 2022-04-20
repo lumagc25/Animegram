@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class ImageController extends Controller
 {
+    //Restringimos el acceso solo para usuarios logeados
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -24,7 +29,8 @@ class ImageController extends Controller
      */
     public function create()
     {
-        //
+        //views/image/create
+        return view('image.create');
     }
 
     /**

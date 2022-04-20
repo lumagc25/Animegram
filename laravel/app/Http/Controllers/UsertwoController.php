@@ -104,11 +104,12 @@ class UsertwoController extends Controller
             Storage::disk('users')->put($image, File::get($avatar));
             //seteamos el nombre de la imagen en el objeto
             $user->photo = $image;
+            $validatedData["photo"] = $image;
         }
 
         User::whereId($id)->update($validatedData);
 
-        return redirect()->route('users.edit')->with(['message' => 'Tus datos han sido actualizados']);
+        return redirect()->route('users.edit', ['user' => $id])->with(['message' => 'Tus datos han sido actualizados']);
     }
 
     /**

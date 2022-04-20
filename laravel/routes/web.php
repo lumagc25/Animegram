@@ -41,4 +41,4 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 //Route::post('/user/update', [App\Http\Controllers\UserController::class, 'update'])->name('user.update');
 
 Route::resource('users', 'UsertwoController');
-Route::get('/user/avatar/{filename}', [App\Http\Controllers\UserController::class, 'getImage'])->name('user.avatar');
+Route::get('/user/avatar/{filename}', [App\Http\Controllers\UsertwoController::class, 'getImage'])->name('user.avatar');
