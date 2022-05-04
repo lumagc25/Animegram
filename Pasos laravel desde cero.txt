@@ -80,6 +80,11 @@ Para crear el avatar
 retocamos el /config/filesystems.php y añadimos en disk.
 
 
+Comandos de seguridad. en animegram
+chmod g+w -R laravel
+chown www-data:www-data -R laravel
+addgroup usuario www-data
+
 
 TOken;
 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
