@@ -2,11 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function config(){
         //return view('user.config');
     }
@@ -58,9 +66,11 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit($id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        return view('user.config', compact('user'));
     }
 
     /**
@@ -70,37 +80,35 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    //Recibimos datos del formulario config.blade
-    /*public function update(Request $request)
+   
+    public function update(Request $request, $id)
     {
-        //Conseguir usuario identificado
-        $user = \Auth::user();
-        $id = $user->id;
+        $user = User::findOrFail($id);
 
-        //Validando datos del formulario enviado
-        $validate = $this->validate($request, [
+        $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'surname' => 'required|string|max:255',
             //Tanto el nick como el email es unico y propio de casa usuario
             'nick' => 'required|string|max:255|unique:users,nick,'. $id,
             'email' => 'required|string|max:255|unique:users,email,'. $id,
         ]);
-        //Recogemos datos del formulario
-        $name = $request->input('name');
-        $surname = $request->input('surname');
-        $nick = $request->input('nick');
-        $email = $request->input('email');
 
-        //Asignar nuevos valores al obejto de usuario
-        $user->name = $name;
-        $user->surname = $surname;
-        $user->nick = $nick;
-        $user->email = $email;
-        $user->update();
+        //Subir el avatar
+        $avatar = $request->file('photo');
+        if($avatar){
+            $image = time() . $avatar->getClientOriginalName();
+            //Guardamos dentro la carpeta de users
+            Storage::disk('users')->put($image, File::get($avatar));
+            //seteamos el nombre de la imagen en el objeto
+            $user->photo = $image;
+            $validatedData["photo"] = $image;
+        }
 
-        return redirect()->route('config')->with(['message' => 'Tus datos han sido actualizados']);
+        User::whereId($id)->update($validatedData);
+
+        return redirect()->route('users.edit', ['user' => $id])->with(['message' => 'Tus datos han sido actualizados']);  
     }
-*/
+
     /**
      * Remove the specified resource from storage.
      *
@@ -110,5 +118,12 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         //
+    }
+
+    //Muestra una previsualizacion de la image
+    public function getImage($filename){
+        $file = Storage::disk('users')->get($filename);
+
+        return new Response($file, 200);
     }
 }

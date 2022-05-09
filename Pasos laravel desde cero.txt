@@ -87,6 +87,4 @@ addgroup usuario www-data
 
 
 TOken;
-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
-
-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
+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

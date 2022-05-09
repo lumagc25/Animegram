@@ -3,7 +3,8 @@ form .avatar {
     margin-bottom: 15px;
 }
 
-.navbar .container-avatar{
+.navbar .container-avatar, 
+.pub_image .container-image{
     width: 45px;
     height: 45px;
     border-radius: 900px;
