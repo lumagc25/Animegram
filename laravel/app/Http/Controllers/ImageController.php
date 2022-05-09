@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Image;
+use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
@@ -117,5 +118,21 @@ class ImageController extends Controller
     public function destroy(Image $image)
     {
         //
+    }
+
+    public function getImage($filename)
+    {
+        $file = Storage::disk('images')->get($filename);
+
+        return new Response($file, 200);
+    }
+
+    public function detail($id) 
+    {
+        $image = Image::find($id);
+
+        return view('image.detail', [
+            'image' => $image
+        ]);
     }
 }

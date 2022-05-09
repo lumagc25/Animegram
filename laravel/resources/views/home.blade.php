@@ -10,19 +10,42 @@
             @foreach ($images as $image)
                 <div class="card pub_image">
                     <div class="card-header">
-                        @if ($image->user->image)
-                            <div class="">
-                                <img class="avatar" src="{{ route('user.avatar', ['filename' => Auth::user()->photo]) }}" alt="" />
+                        @if ($image->user->photo)
+                            <div class="container-avatar">
+                                <img class="avatar" src="{{ route('user.avatar', ['filename' => $image->user->photo]) }}" alt="" />
                             </div>
                         @endif
-                        {{ $image->user->name . ' ' . $image->user->surname }}
+                        <div class="data-user">
+                            <a href="{{ route('image.detail', ['id' => $image->id]) }}">
+                                {{ $image->user->name . ' ' . $image->user->surname }}
+                                <span class="nickname">
+                                    {{ ' | @' . $image->user->nick }}
+                                </span>
+                            </a>
+                        </div>
                     </div>
 
                     <div class="card-body">
-
+                        <div class="image-container">
+                            <img src="{{ route('image.file', ['filename' => $image->image_path]) }}" alt="">
+                        </div>
+                        <div class="likes">
+                            <i class="fa-solid fa-heart"></i>
+                        </div>
+                        <div class="description">
+                            <span class="nickname">{{ '@' . $image->user->nick }}</span>
+                            <span class="date"> {{ ' | ' . $image->created_at }} </span>
+                            <p> {{$image->description}} </p>
+                        </div>
+                        <a class="btn btn-sm btn-warning btn-comments" href="">
+                            Comentarios ({{ count($image->comments) }})
+                        </a>
                     </div>
                 </div>
-            @endforeach    
+            @endforeach
+            <!--paginacion-->
+            <div class="clearfix"></div>
+            {{ $images->links() }}    
         </div>
     </div>
 </div>
