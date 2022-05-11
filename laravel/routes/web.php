@@ -37,3 +37,6 @@ Route::get('/user/avatar/{filename}', [UserController::class, 'getImage'])->name
 Route::resource('images', 'ImageController');
 Route::get('/image/file/{filename}', [ImageController::class, 'getImage'])->name('image.file');
 Route::get('/image/{id}', [ImageController::class, 'detail'])->name('image.detail');
+
+//Rutas comentarios
+Route::resource('comments', 'CommentController');

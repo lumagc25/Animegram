@@ -29,13 +29,13 @@
                         <div class="image-container">
                             <img src="{{ route('image.file', ['filename' => $image->image_path]) }}" alt="">
                         </div>
-                        <div class="likes">
-                            <i class="fa-solid fa-heart"></i>
-                        </div>
                         <div class="description">
                             <span class="nickname">{{ '@' . $image->user->nick }}</span>
-                            <span class="date"> {{ ' | ' . $image->created_at }} </span>
+                            <span class="date"> {{ ' | ' . \FormatTime::LongTimeFilter($image->created_at) }} </span>
                             <p> {{$image->description}} </p>
+                        </div>
+                        <div class="likes">
+                            <i class="fa-solid fa-heart"></i>
                         </div>
                         <a class="btn btn-sm btn-warning btn-comments" href="">
                             Comentarios ({{ count($image->comments) }})
@@ -43,9 +43,6 @@
                     </div>
                 </div>
             @endforeach
-            <!--paginacion-->
-            <div class="clearfix"></div>
-            {{ $images->links() }}    
         </div>
     </div>
 </div>

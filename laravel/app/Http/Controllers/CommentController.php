@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -35,7 +40,13 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validate = $this->validate($request, [
+            'image_id' => 'integer|required',
+            'content' => 'string|required'
+        ]);
+
+        $image_id = $request->input('image_id');
+        $content = $request->input('content');
     }
 
     /**
